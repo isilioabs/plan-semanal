@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<title>Agency Planner · Plan semanal</title>
+<meta name="description" content="Planificación de actividades y promotorías.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="18346dd0-3e9f-4cb4-945f-7b148163d866"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<style>/* latin-ext */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("345a0afd-a577-4881-a606-39c243bad012") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d85c188f-3c25-4fb5-ad33-c984b20e197c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("345a0afd-a577-4881-a606-39c243bad012") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d85c188f-3c25-4fb5-ad33-c984b20e197c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("345a0afd-a577-4881-a606-39c243bad012") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d85c188f-3c25-4fb5-ad33-c984b20e197c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("e8b57a01-9047-4158-aacf-1f55ed7ebd6b") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("8d1c4b86-18df-424b-9134-4f0231a8f29c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid #285b48;outline-offset:3px}
+.storage-note{font-size:12px;color:#555f57}
+.feedback{padding:10px 14px;border-radius:9px;background:#e7f3e9;color:#234d36;font-size:13px;overflow-wrap:anywhere}
+.error{background:#fff0ed;color:#852b20;border:1px solid #d4a69b}
+.secondary,.primary{min-height:44px;padding:10px 14px;border:1px solid #cdd2ca;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.primary{background:#285b48;border-color:#285b48;color:white}
+.actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.empty-intro{padding:22px 0;border-bottom:1px solid #deded7}.empty-intro h2,.archive h2,.restore-dialog h2{font:normal 28px "Instrument Serif",Georgia,serif;margin:0}
+.empty-intro p,.archive p,.restore-dialog p{font-size:14px;line-height:1.6}
+.archive{padding:24px 0}.archive-row{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px;background:white;border:1px solid #deded7;border-radius:10px;margin:8px 0}
+.modal-overlay{position:fixed;inset:0;z-index:80;background:#23332a88;display:flex;align-items:center;justify-content:center;padding:12px}
+.restore-dialog{width:min(640px,100%);max-height:92dvh;overflow:auto;background:#fcfbf8;border-radius:16px;padding:24px;box-shadow:0 24px 60px #17231f44}
+.preview-table{width:100%;font-size:13px}.preview-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:8px;padding:9px 4px;border-bottom:1px solid #deded7}.preview-row span{overflow-wrap:anywhere}
+.filename{overflow-wrap:anywhere;font-weight:600}
+@media(max-width:600px){header{position:static!important}.restore-dialog{padding:16px}.archive-row{align-items:flex-start;flex-direction:column}}
+body{margin:0;background:oklch(0.975 0.008 85);font-family:'Instrument Sans',system-ui,sans-serif;color:oklch(0.26 0.012 65);-webkit-text-size-adjust:100%}
+a{color:oklch(0.50 0.10 148);text-decoration:none}
+a:hover{color:oklch(0.42 0.11 148)}
+input,select,button,textarea{font-family:inherit;font-size:inherit;color:inherit}
+@media print{
+  @page{size:letter portrait;margin:12mm}
+  html,body{background:#fff}
+  [data-no-print]{display:none !important}
+  header{position:static !important;background:none !important;backdrop-filter:none !important;border-bottom:1px solid #ddd !important}
+  main,header>div{padding-left:0 !important;padding-right:0 !important;max-width:none !important}
+  article{break-inside:avoid;box-shadow:none !important}
+  section{break-inside:avoid}
+}
+</style>
+<meta name="omelette-owns-print" content="1">
+<script src="b2c112cf-47e0-40a3-8b97-14fca074388f"></script>
+</helmet>
+
+<div style="min-height:100dvh;padding:0 0 64px">
+
+  <header data-planner-background="1" style="position:sticky;top:0;z-index:20;background:oklch(0.975 0.008 85 / 0.94);backdrop-filter:blur(10px);border-bottom:1px solid oklch(0.89 0.01 85)">
+    <div style="max-width:1180px;margin:0 auto;padding:18px clamp(14px,3vw,28px) 0;display:grid;gap:14px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div style="display:grid;gap:4px">
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:oklch(0.58 0.02 70)">Agency Planner · Plan semanal</div>
+          <h1 style="margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(26px,4.2vw,40px);line-height:1.05;letter-spacing:-0.01em">{{ tituloSemana }}</h1>
+        </div>
+        <div data-no-print="1" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button sc-camel-on-click="{{ onExportar }}" style="min-height:44px;padding:0 16px;border:1px solid oklch(0.72 0.05 148);background:oklch(0.96 0.03 148);color:oklch(0.34 0.06 148);border-radius:10px;font-size:14px;font-weight:500;cursor:pointer">Exportar PDF</button>
+          <button sc-camel-on-click="{{ onRespaldo }}" style="min-height:44px;padding:0 14px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:10px;font-size:14px;cursor:pointer">Respaldo</button>
+          <label style="min-height:44px;display:inline-flex;align-items:center;padding:0 14px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:10px;font-size:14px;cursor:pointer">Importar respaldo
+            <input type="file" aria-label="Seleccionar respaldo JSON" accept="application/json,.json" sc-camel-on-change="{{ onRestaurar }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+          </label>
+          <button sc-camel-on-click="{{ onPrev }}" aria-label="Semana anterior" style="min-width:44px;min-height:44px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:10px;font-size:17px;cursor:pointer">‹</button>
+          <button sc-camel-on-click="{{ onHoy }}" style="min-height:44px;padding:0 18px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer">Esta semana</button>
+          <button sc-camel-on-click="{{ onNext }}" aria-label="Semana siguiente" style="min-width:44px;min-height:44px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:10px;font-size:17px;cursor:pointer">›</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline">
+        <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1">{{ statTotal }}</span><span style="font-size:12.5px;color:oklch(0.55 0.02 70)">activas</span></div>
+        <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1;color:oklch(0.45 0.10 152)">{{ statHechas }}</span><span style="font-size:12.5px;color:oklch(0.55 0.02 70)">realizadas</span></div>
+        <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1">{{ statClientes }}</span><span style="font-size:12.5px;color:oklch(0.55 0.02 70)">clientes</span></div>
+        <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1;color:oklch(0.48 0.10 60)">{{ statPorCobrar }}</span><span style="font-size:12.5px;color:oklch(0.55 0.02 70)">por cobrar</span></div>
+        <div style="display:flex;align-items:baseline;gap:7px;padding-left:14px;border-left:1px solid oklch(0.88 0.01 85)"><span style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1;color:oklch(0.44 0.10 60)">{{ montoPorCobrar }}</span><span style="font-size:12.5px;color:oklch(0.55 0.02 70)">pendiente total conocido</span></div>
+        <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1">{{ montoSemana }}</span><span style="font-size:12.5px;color:oklch(0.55 0.02 70)">importe semanal conocido</span></div>
+      </div>
+      <div data-no-print="1" class="storage-note">{{ storageNote }}</div>
+      <sc-if value="{{ saving }}"><div data-planner-saving="1" role="status" style="position:fixed;inset:0;z-index:9999;background:#ffffffbb;display:grid;place-items:center">Guardando cambios…</div></sc-if>
+      <sc-if value="{{ hayError }}"><div data-no-print="1" class="feedback error" role="alert">{{ error }}</div></sc-if>
+      <sc-if value="{{ hayAviso }}"><div data-no-print="1" class="feedback" role="status">{{ aviso }}</div></sc-if>
+      <sc-if value="{{ cambioExterno }}"><button data-no-print="1" class="secondary" sc-camel-on-click="{{ onRecargar }}">Recargar información</button></sc-if>
+      <sc-if value="{{ hayRecuperacion }}"><div data-no-print="1" class="actions"><button class="secondary" sc-camel-on-click="{{ onRecuperacion }}">Recuperación anterior</button><button class="secondary" sc-camel-on-click="{{ onDescargarAnterior }}">Descargar recuperación anterior</button></div></sc-if>
+      <div data-no-print="1" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input value="{{ q }}" sc-camel-on-change="{{ onQ }}" aria-label="Buscar actividades" placeholder="Buscar punto de venta, cliente o producto…" style="flex:1;min-width:220px;min-height:44px;padding:10px 14px;border:1px solid oklch(0.88 0.01 85);border-radius:11px;background:#fff;font-size:14px">
+        <sc-if value="{{ hayQ }}">
+          <button sc-camel-on-click="{{ onLimpiarQ }}" style="min-height:44px;padding:0 14px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:11px;font-size:13.5px;cursor:pointer">Limpiar</button>
+        </sc-if>
+      </div>
+      <div data-no-print="1" style="display:flex;gap:4px;overflow-x:auto">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+          <button sc-camel-on-click="{{ t.onClick }}" style="min-height:42px;padding:0 16px;border:0;border-bottom:2px solid {{ t.bd }};background:transparent;color:{{ t.fg }};font-size:14px;font-weight:500;white-space:nowrap;cursor:pointer">{{ t.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <main data-planner-background="1" style="max-width:1180px;margin:0 auto;padding:0 clamp(14px,3vw,28px)">
+<sc-if value="{{ vacio }}"><section class="empty-intro" data-no-print="1">
+<h2>Tu plan empieza aquí</h2><p>Agrega una actividad o importa tu respaldo. Este archivo no incluye datos de ninguna agencia.</p>
+<button class="secondary" sc-camel-on-click="{{ onEjemplo }}">Ver ejemplo ficticio</button></section></sc-if>
+<sc-if value="{{ esArchivo }}"><section class="archive"><h2>Archivo</h2><p>Estos registros conservan su historial y no se incluyen en los totales activos.</p>
+<sc-if value="{{ archivoVacio }}"><p>No hay registros archivados.</p></sc-if>
+<h3>Actividades</h3><sc-for list="{{ eventosArchivados }}" as="a" hint-placeholder-count="0"><article class="archive-row"><span>{{ a.label }}</span><button class="secondary" sc-camel-on-click="{{ a.onRestore }}">Reactivar</button></article></sc-for>
+<h3>Descuentos</h3><sc-for list="{{ descuentosArchivados }}" as="a" hint-placeholder-count="0"><article class="archive-row"><span>{{ a.label }}</span><button class="secondary" sc-camel-on-click="{{ a.onRestore }}">Reactivar</button></article></sc-for>
+<h3>Productos</h3><sc-for list="{{ productosArchivados }}" as="a" hint-placeholder-count="0"><article class="archive-row"><span>{{ a.label }}</span><button class="secondary" sc-camel-on-click="{{ a.onRestore }}">Reactivar</button></article></sc-for>
+</section></sc-if>
+
+    <sc-if value="{{ hayQ }}">
+      <div style="padding:22px 0;display:grid;gap:12px">
+        <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+          <h2 style="margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px">Resultados</h2>
+          <span style="font-size:13px;color:oklch(0.58 0.02 70)">{{ resumenQ }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px">
+          <sc-for list="{{ resultados }}" as="e" hint-placeholder-count="3">
+            <article style="background:#fff;border:1px solid oklch(0.91 0.01 85);border-left:3px solid {{ e.fg }};border-radius:12px;padding:14px;display:grid;gap:9px;align-content:start">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:{{ e.fg }}">{{ e.cliente }}</span>
+                <span style="margin-left:auto;padding:4px 9px;border-radius:999px;background:{{ e.estBg }};color:{{ e.estFg }};font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap">{{ e.estLabel }}</span>
+              </div>
+              <div style="font-family:'Instrument Serif',Georgia,serif;font-size:23px;line-height:1.1">{{ e.pdv }}</div>
+              <div style="font-size:13.5px;font-weight:500;color:oklch(0.42 0.02 70)">{{ e.fechaTxt }}</div>
+              <div style="font-size:13px;color:oklch(0.55 0.02 70)">{{ e.horario }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
+                <sc-for list="{{ e.prods }}" as="p" hint-placeholder-count="3">
+                  <span style="padding:4px 8px;border-radius:6px;background:oklch(0.96 0.008 85);border:1px solid oklch(0.92 0.008 85);font-size:11.5px;color:oklch(0.40 0.015 70)">{{ p.n }}</span>
+                </sc-for>
+              </div>
+              <button sc-camel-on-click="{{ e.onOpen }}" style="min-height:44px;border:1px solid oklch(0.89 0.01 85);background:#fff;border-radius:10px;font-size:13px;cursor:pointer">Abrir y editar</button>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esSemana }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;gap:0">
+        <sc-for list="{{ dias }}" as="d" hint-placeholder-count="7">
+          <section style="display:grid;gap:12px;padding:20px 0;border-bottom:1px solid oklch(0.91 0.008 85)">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <div style="display:flex;align-items:baseline;gap:9px;min-width:150px">
+                <span style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;line-height:1">{{ d.num }}</span>
+                <span style="display:grid"><span style="font-size:14px;font-weight:600">{{ d.nombre }}</span><span style="font-size:11.5px;color:oklch(0.58 0.02 70)">{{ d.mes }}</span></span>
+              </div>
+              <sc-if value="{{ d.hoy }}"><span style="padding:4px 9px;border-radius:999px;background:oklch(0.45 0.10 152);color:#fff;font-size:10px;font-weight:600;letter-spacing:0.12em">HOY</span></sc-if>
+              <span style="font-size:12.5px;color:oklch(0.58 0.02 70)">{{ d.resumen }}</span>
+              <button sc-camel-on-click="{{ d.onAdd }}" data-no-print="1" style="margin-left:auto;min-height:40px;padding:0 14px;border:1px dashed oklch(0.82 0.02 85);background:transparent;border-radius:10px;font-size:13px;color:oklch(0.45 0.02 70);cursor:pointer">+ Agregar</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px">
+              <sc-for list="{{ d.eventos }}" as="e" hint-placeholder-count="2">
+                <article style="background:#fff;border:1px solid oklch(0.91 0.01 85);border-left:3px solid {{ e.fg }};border-radius:12px;padding:14px;display:grid;gap:9px;align-content:start">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:{{ e.fg }}">{{ e.cliente }}</span>
+                    <span style="margin-left:auto;padding:4px 9px;border-radius:999px;background:{{ e.estBg }};color:{{ e.estFg }};font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap">{{ e.estLabel }}</span>
+                  </div>
+                  <div style="font-family:'Instrument Serif',Georgia,serif;font-size:23px;line-height:1.1">{{ e.pdv }}</div>
+                  <sc-if value="{{ e.tieneTipo }}"><div style="font-size:11.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:oklch(0.48 0.06 148)">{{ e.tipo }}</div></sc-if>
+                  <div style="font-size:13.5px;font-weight:500;color:oklch(0.42 0.02 70)">{{ e.horario }}</div>
+                  <sc-if value="{{ e.tieneDir }}"><div style="font-size:12.5px;color:oklch(0.58 0.02 70)">{{ e.direccion }}</div></sc-if>
+                  <sc-if value="{{ verProductos }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;flex-wrap:wrap;gap:5px">
+                      <sc-for list="{{ e.prods }}" as="p" hint-placeholder-count="3">
+                        <span style="padding:4px 8px;border-radius:6px;background:oklch(0.96 0.008 85);border:1px solid oklch(0.92 0.008 85);font-size:11.5px;color:oklch(0.40 0.015 70)">{{ p.n }}</span>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ e.tienePop }}"><div style="font-size:11.5px;color:oklch(0.58 0.02 70)">POP: {{ e.popTxt }}</div></sc-if>
+                  <sc-if value="{{ e.tienePromotora }}"><div style="font-size:12.5px;color:oklch(0.45 0.02 70)">Promotora: {{ e.promotora }}</div></sc-if>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <button sc-camel-on-click="{{ e.onToggleCobro }}" style="min-height:34px;padding:0 11px;border:1px solid {{ e.cobroBd }};background:{{ e.cobroBg }};color:{{ e.cobroFg }};border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:0.04em;cursor:pointer">{{ e.cobroLabel }}</button>
+                    <button sc-camel-on-click="{{ e.onToggleFactura }}" style="min-height:34px;padding:0 11px;border:1px solid {{ e.facturaBd }};background:{{ e.facturaBg }};color:{{ e.facturaFg }};border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:0.04em;cursor:pointer">{{ e.facturaLabel }}</button>
+                  </div>
+                  <div data-no-print="1" style="display:flex;gap:8px;margin-top:2px">
+                    <button sc-camel-on-click="{{ e.onToggle }}" style="flex:1;min-height:44px;border:1px solid {{ e.okBd }};background:{{ e.okBg }};color:{{ e.okFg }};border-radius:10px;font-size:13px;font-weight:500;cursor:pointer">{{ e.btnHecho }}</button>
+                    <button sc-camel-on-click="{{ e.onOpen }}" style="min-height:44px;padding:0 16px;border:1px solid oklch(0.89 0.01 85);background:#fff;border-radius:10px;font-size:13px;cursor:pointer">Editar</button>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+            <sc-if value="{{ d.vacio }}"><div style="padding:14px;border:1px dashed oklch(0.90 0.01 85);border-radius:12px;font-size:13px;color:oklch(0.64 0.015 70)">Día libre</div></sc-if>
+          </section>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esDesc }}">
+      <div style="padding:22px 0;display:grid;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <h2 style="margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px">Plan de descuentos</h2>
+          <button sc-camel-on-click="{{ onNuevoDesc }}" style="margin-left:auto;min-height:44px;padding:0 16px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:10px;font-size:13.5px;cursor:pointer">+ Nuevo descuento</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">
+          <sc-for list="{{ descuentos }}" as="x" hint-placeholder-count="3">
+            <article style="background:#fff;border:1px solid oklch(0.91 0.01 85);border-radius:12px;padding:16px;display:grid;gap:10px;align-content:start">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:{{ x.fg }}">{{ x.cliente }}</span>
+                <span style="margin-left:auto;padding:4px 9px;border-radius:999px;background:{{ x.vigBg }};color:{{ x.vigFg }};font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">{{ x.vigLabel }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-family:'Instrument Serif',Georgia,serif;font-size:38px;line-height:1">{{ x.pct }}</span>
+                <span style="font-size:13px;color:oklch(0.58 0.02 70)">de descuento</span>
+              </div>
+              <div style="font-size:14.5px;line-height:1.4;text-wrap:pretty">{{ x.descripcion }}</div>
+              <div style="font-size:12.5px;color:oklch(0.50 0.02 70)">{{ x.rango }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
+                <sc-for list="{{ x.prods }}" as="p" hint-placeholder-count="2">
+                  <span style="padding:4px 8px;border-radius:6px;background:oklch(0.96 0.008 85);border:1px solid oklch(0.92 0.008 85);font-size:11.5px;color:oklch(0.40 0.015 70)">{{ p.n }}</span>
+                </sc-for>
+              </div>
+              <button sc-camel-on-click="{{ x.onOpen }}" style="min-height:44px;border:1px solid oklch(0.89 0.01 85);background:#fff;border-radius:10px;font-size:13px;cursor:pointer">Editar</button>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+
+
+    <sc-if value="{{ esProd }}">
+      <div style="padding:22px 0;display:grid;gap:14px">
+        <div style="display:grid;gap:4px">
+          <h2 style="margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px">Productos</h2>
+          <p style="margin:0;font-size:13.5px;color:oklch(0.55 0.02 70);max-width:56ch;text-wrap:pretty">Corregir un nombre también actualiza el historial. Archivar conserva sus usos anteriores y permite reactivarlo desde Archivo.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">
+          <sc-for list="{{ catalogo }}" as="p" hint-placeholder-count="7">
+            <div style="background:#fff;border:1px solid oklch(0.91 0.01 85);border-radius:12px;padding:12px;display:grid;gap:8px">
+              <input aria-label="Nombre del producto" sc-camel-default-value="{{ p.n }}" sc-camel-on-blur="{{ p.onRename }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:oklch(0.99 0.004 85);font-size:14.5px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:11.5px;color:oklch(0.60 0.015 70)">{{ p.usos }}</span>
+                <button sc-camel-on-click="{{ p.onBorrar }}" style="margin-left:auto;min-height:40px;padding:0 12px;border:1px solid oklch(0.88 0.02 25);background:#fff;color:oklch(0.50 0.11 25);border-radius:9px;font-size:12.5px;cursor:pointer">Archivar</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;max-width:520px">
+          <input value="{{ nuevoProd }}" sc-camel-on-change="{{ onNuevoProd }}" sc-camel-on-key-down="{{ onNuevoProdKeyCat }}" placeholder="Nuevo producto y presiona Enter" style="flex:1;min-width:200px;min-height:44px;padding:10px 12px;border:1px dashed oklch(0.82 0.02 85);border-radius:9px;background:#fff">
+          <button sc-camel-on-click="{{ onAgregarProdCat }}" style="min-height:44px;padding:0 16px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:9px;font-size:13.5px;cursor:pointer">Añadir</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esPool }}">
+      <div style="padding:22px 0;display:grid;gap:12px">
+        <div style="display:grid;gap:4px">
+          <h2 style="margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px">PDV sin fecha asignada</h2>
+          <p style="margin:0;font-size:13.5px;color:oklch(0.55 0.02 70);max-width:52ch;text-wrap:pretty">Ponle fecha y entra directo a la semana que corresponda.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">
+          <sc-for list="{{ sinFecha }}" as="e" hint-placeholder-count="6">
+            <article style="background:#fff;border:1px solid oklch(0.91 0.01 85);border-left:3px solid {{ e.fg }};border-radius:12px;padding:14px;display:grid;gap:9px;align-content:start">
+              <span style="font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:{{ e.fg }}">{{ e.cliente }}</span>
+              <div style="font-family:'Instrument Serif',Georgia,serif;font-size:22px;line-height:1.1">{{ e.pdv }}</div>
+              <label style="display:grid;gap:5px;font-size:11.5px;color:oklch(0.55 0.02 70)">Asignar fecha
+                <input type="date" value="" sc-camel-on-change="{{ e.onFecha }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:oklch(0.99 0.004 85)">
+              </label>
+              <button sc-camel-on-click="{{ e.onOpen }}" style="min-height:44px;border:1px solid oklch(0.89 0.01 85);background:#fff;border-radius:10px;font-size:13px;cursor:pointer">Ver detalle</button>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+  </main>
+
+  <sc-if value="{{ hayEv }}">
+    <div style="position:fixed;inset:0;z-index:60;background:oklch(0.25 0.01 65 / 0.42);display:flex;align-items:center;justify-content:center;padding:12px">
+      <div data-planner-dialog="1" role="dialog" aria-modal="true" aria-label="Editar actividad" tabindex="-1" style="width:min(560px,100%);max-height:92dvh;overflow:auto;background:oklch(0.99 0.005 85);border-radius:16px;border:1px solid oklch(0.9 0.01 85);box-shadow:0 24px 60px oklch(0.25 0.01 65 / 0.22);padding:clamp(16px,3vw,24px);display:grid;gap:14px">
+<sc-if value="{{ hayError }}"><div class="feedback error" role="alert">{{ error }}</div></sc-if>
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="display:grid;gap:3px">
+            <span style="font-size:10.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.58 0.02 70)">Promotoría</span>
+            <span style="font-family:'Instrument Serif',Georgia,serif;font-size:26px;line-height:1.1">{{ evTitulo }}</span>
+          </div>
+          <button sc-camel-on-click="{{ onCerrar }}" data-close-dialog="1" aria-label="Cerrar" style="margin-left:auto;min-width:44px;min-height:44px;border:1px solid oklch(0.9 0.01 85);background:#fff;border-radius:10px;font-size:16px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">CLIENTE / CADENA
+            <input value="{{ ev.cliente }}" sc-camel-on-change="{{ on.cliente }}" placeholder="Nombre del cliente o cadena" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">PDV / SUCURSAL
+            <input value="{{ ev.pdv }}" sc-camel-on-change="{{ on.pdv }}" placeholder="Sucursal o nombre de la actividad" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px">
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">FECHA
+            <input type="date" value="{{ ev.fecha }}" sc-camel-on-change="{{ on.fecha }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">DESDE
+            <input type="time" value="{{ ev.horaIni }}" sc-camel-on-change="{{ on.hi }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">HASTA
+            <input type="time" value="{{ ev.horaFin }}" sc-camel-on-change="{{ on.hf }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+        </div>
+        <button class="secondary" sc-camel-on-click="{{ onFinSiguiente }}" aria-pressed="{{ ev.finDiaSiguiente }}">{{ finSiguienteLabel }}</button>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">TIPO DE EVENTO</span>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ tipoOpts }}" as="t" hint-placeholder-count="5">
+              <button sc-camel-on-click="{{ t.onClick }}" style="min-height:40px;padding:0 13px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};border-radius:999px;font-size:13px;cursor:pointer">{{ t.n }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input value="{{ nuevoTipo }}" sc-camel-on-change="{{ onNuevoTipo }}" sc-camel-on-key-down="{{ onNuevoTipoKey }}" placeholder="Otro tipo de evento y presiona Enter" style="flex:1;min-width:200px;min-height:44px;padding:10px 12px;border:1px dashed oklch(0.82 0.02 85);border-radius:9px;background:#fff">
+            <button sc-camel-on-click="{{ onAgregarTipo }}" style="min-height:44px;padding:0 16px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:9px;font-size:13.5px;cursor:pointer">Añadir</button>
+          </div>
+        </div>
+        <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">MONTO A COBRAR (USD)
+          <input type="number" min="0" step="0.01" sc-camel-input-mode="decimal" value="{{ ev.monto }}" sc-camel-on-change="{{ on.monto }}" placeholder="Sin tarifa definida" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+        </label>
+        <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">PROMOTORA ASIGNADA
+          <input value="{{ ev.promotora }}" sc-camel-on-change="{{ on.promotora }}" list="promotoras-usadas" placeholder="Nombre de la promotora" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          <datalist id="promotoras-usadas">
+            <sc-for list="{{ promotoras }}" as="p" hint-placeholder-count="0"><option value="{{ p.n }}"></option></sc-for>
+          </datalist>
+        </label>
+        <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">DIRECCIÓN O UBICACIÓN
+          <input value="{{ ev.direccion }}" sc-camel-on-change="{{ on.dir }}" placeholder="Ej. Av. 5 de Julio, C.C. Lago Mall" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+        </label>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">PRODUCTOS A IMPULSAR</span>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ prodChips }}" as="p" hint-placeholder-count="7">
+              <button sc-camel-on-click="{{ p.onClick }}" style="min-height:40px;padding:0 13px;border:1px solid {{ p.bd }};background:{{ p.bg }};color:{{ p.fg }};border-radius:999px;font-size:13px;cursor:pointer">{{ p.n }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input value="{{ nuevoProd }}" sc-camel-on-change="{{ onNuevoProd }}" sc-camel-on-key-down="{{ onNuevoProdKey }}" placeholder="Escribe otro producto y presiona Enter" style="flex:1;min-width:200px;min-height:44px;padding:10px 12px;border:1px dashed oklch(0.82 0.02 85);border-radius:9px;background:#fff">
+            <button sc-camel-on-click="{{ onAgregarProd }}" style="min-height:44px;padding:0 16px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:9px;font-size:13.5px;cursor:pointer">Añadir</button>
+          </div>
+          <span style="font-size:11.5px;color:oklch(0.62 0.015 70)">Los productos que agregues quedan disponibles para los demás eventos.</span>
+        </div>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">MATERIAL POP ENTREGADO</span>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ popChips }}" as="p" hint-placeholder-count="6">
+              <button sc-camel-on-click="{{ p.onClick }}" style="min-height:40px;padding:0 13px;border:1px solid {{ p.bd }};background:{{ p.bg }};color:{{ p.fg }};border-radius:999px;font-size:13px;cursor:pointer">{{ p.n }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">REQUISITO DE FACTURA</span>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <sc-for list="{{ facturaOpts }}" as="o" hint-placeholder-count="2">
+              <button sc-camel-on-click="{{ o.onClick }}" style="flex:1;min-width:130px;min-height:44px;border:1px solid {{ o.bd }};background:{{ o.bg }};color:{{ o.fg }};border-radius:10px;font-size:13px;font-weight:500;cursor:pointer">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">ESTADO DEL COBRO</span>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <sc-for list="{{ cobroOpts }}" as="o" hint-placeholder-count="2">
+              <button sc-camel-on-click="{{ o.onClick }}" style="flex:1;min-width:130px;min-height:44px;border:1px solid {{ o.bd }};background:{{ o.bg }};color:{{ o.fg }};border-radius:10px;font-size:13px;font-weight:500;cursor:pointer">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">ESTADO</span>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <sc-for list="{{ estadoOpts }}" as="o" hint-placeholder-count="3">
+              <button sc-camel-on-click="{{ o.onClick }}" style="flex:1;min-width:110px;min-height:44px;border:1px solid {{ o.bd }};background:{{ o.bg }};color:{{ o.fg }};border-radius:10px;font-size:13px;font-weight:500;cursor:pointer">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px;border-top:1px solid oklch(0.92 0.008 85)">
+          <button sc-camel-on-click="{{ onGuardar }}" style="flex:1;min-width:140px;min-height:48px;border:0;background:oklch(0.34 0.03 148);color:oklch(0.98 0.01 148);border-radius:11px;font-size:14.5px;font-weight:500;cursor:pointer">Guardar</button>
+          <button sc-camel-on-click="{{ onRepetir }}" style="min-height:48px;padding:0 14px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:11px;font-size:13.5px;cursor:pointer">Repetir próxima semana</button>
+          <button sc-camel-on-click="{{ onBorrar }}" style="min-height:48px;padding:0 14px;border:1px solid oklch(0.88 0.02 25);background:#fff;color:oklch(0.50 0.11 25);border-radius:11px;font-size:13.5px;cursor:pointer">Archivar</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hayDesc }}">
+    <div style="position:fixed;inset:0;z-index:60;background:oklch(0.25 0.01 65 / 0.42);display:flex;align-items:center;justify-content:center;padding:12px">
+      <div data-planner-dialog="1" role="dialog" aria-modal="true" aria-label="Editar descuento" tabindex="-1" style="width:min(560px,100%);max-height:92dvh;overflow:auto;background:oklch(0.99 0.005 85);border-radius:16px;border:1px solid oklch(0.9 0.01 85);box-shadow:0 24px 60px oklch(0.25 0.01 65 / 0.22);padding:clamp(16px,3vw,24px);display:grid;gap:14px">
+<sc-if value="{{ hayError }}"><div class="feedback error" role="alert">{{ error }}</div></sc-if>
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <span style="font-family:'Instrument Serif',Georgia,serif;font-size:26px;line-height:1.1">Descuento</span>
+          <button sc-camel-on-click="{{ onCerrar }}" data-close-dialog="1" aria-label="Cerrar" style="margin-left:auto;min-width:44px;min-height:44px;border:1px solid oklch(0.9 0.01 85);background:#fff;border-radius:10px;font-size:16px;cursor:pointer">✕</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">CLIENTE
+            <input value="{{ dsc.cliente }}" sc-camel-on-change="{{ onD.cliente }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">% DE DESCUENTO
+            <input type="number" min="0" max="100" value="{{ dsc.pct }}" sc-camel-on-change="{{ onD.pct }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">INICIO
+            <input type="date" value="{{ dsc.inicio }}" sc-camel-on-change="{{ onD.inicio }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+          <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">CIERRE
+            <input type="date" value="{{ dsc.cierre }}" sc-camel-on-change="{{ onD.cierre }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+          </label>
+        </div>
+        <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">DESCRIPCIÓN
+          <input value="{{ dsc.descripcion }}" sc-camel-on-change="{{ onD.descripcion }}" style="width:100%;min-height:44px;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff">
+        </label>
+        <label style="display:grid;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">DETALLES / ADMINISTRACIÓN
+          <textarea rows="3" value="{{ dsc.detalles }}" sc-camel-on-change="{{ onD.detalles }}" style="width:100%;padding:10px 12px;border:1px solid oklch(0.88 0.01 85);border-radius:9px;background:#fff;resize:vertical"></textarea>
+        </label>
+        <div style="display:grid;gap:8px">
+          <span style="font-size:11.5px;font-weight:500;color:oklch(0.50 0.02 70)">PRODUCTOS EN PROMOCIÓN</span>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ dscChips }}" as="p" hint-placeholder-count="7">
+              <button sc-camel-on-click="{{ p.onClick }}" style="min-height:40px;padding:0 13px;border:1px solid {{ p.bd }};background:{{ p.bg }};color:{{ p.fg }};border-radius:999px;font-size:13px;cursor:pointer">{{ p.n }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input value="{{ nuevoProd }}" sc-camel-on-change="{{ onNuevoProd }}" sc-camel-on-key-down="{{ onNuevoProdKeyDsc }}" placeholder="Escribe otro producto y presiona Enter" style="flex:1;min-width:200px;min-height:44px;padding:10px 12px;border:1px dashed oklch(0.82 0.02 85);border-radius:9px;background:#fff">
+            <button sc-camel-on-click="{{ onAgregarProdDsc }}" style="min-height:44px;padding:0 16px;border:1px solid oklch(0.88 0.01 85);background:#fff;border-radius:9px;font-size:13.5px;cursor:pointer">Añadir</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px;border-top:1px solid oklch(0.92 0.008 85)">
+          <button sc-camel-on-click="{{ onGuardarDesc }}" style="flex:1;min-width:140px;min-height:48px;border:0;background:oklch(0.34 0.03 148);color:oklch(0.98 0.01 148);border-radius:11px;font-size:14.5px;font-weight:500;cursor:pointer">Guardar</button>
+          <button sc-camel-on-click="{{ onBorrarDesc }}" style="min-height:48px;padding:0 14px;border:1px solid oklch(0.88 0.02 25);background:#fff;color:oklch(0.50 0.11 25);border-radius:11px;font-size:13.5px;cursor:pointer">Archivar</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+<sc-if value="{{ hayPreview }}"><div class="modal-overlay">
+<div class="restore-dialog" data-planner-dialog="1" role="dialog" aria-modal="true" aria-label="Revisar restauración" tabindex="-1">
+<div class="actions"><h2>Revisar restauración</h2><button class="secondary" data-close-dialog="1" sc-camel-on-click="{{ onCerrar }}" aria-label="Cerrar">Cerrar</button></div>
+<sc-if value="{{ hayError }}"><div class="feedback error" role="alert">{{ error }}</div></sc-if>
+<p class="filename">{{ previewName }}</p>
+<p>{{ previewWarning }}</p>
+<div class="preview-table" role="table" aria-label="Comparación del respaldo">
+  <div class="preview-row" role="row"><strong role="columnheader">Contenido</strong><strong role="columnheader">Actual</strong><strong role="columnheader">Respaldo</strong></div>
+  <sc-for list="{{ previewRows }}" as="r" hint-placeholder-count="0"><div class="preview-row" role="row"><span role="rowheader">{{ r.label }}</span><span role="cell">{{ r.before }}</span><span role="cell">{{ r.after }}</span></div></sc-for>
+</div>
+<p>Los registros incompletos se conservan para que puedas corregirlos. Los importes no definidos no se consideran cero.</p>
+<div class="actions"><button class="secondary" sc-camel-on-click="{{ onRespaldo }}">Descargar copia actual</button><button class="primary" sc-camel-on-click="{{ onConfirmarRestauracion }}">Crear copia y restaurar</button></div>
+</div></div></sc-if>
+<sc-if value="{{ hayConfirm }}"><div class="modal-overlay" style="z-index:100">
+<div class="restore-dialog" data-planner-dialog="1" role="dialog" aria-modal="true" aria-label="Confirmar cambio" tabindex="-1">
+<h2>Confirmar cambio</h2><p>{{ confirmMessage }}</p>
+<div class="actions"><button class="secondary" data-close-dialog="1" sc-camel-on-click="{{ onConfirmCancel }}">Volver sin cambiar</button><button class="primary" sc-camel-on-click="{{ onConfirmAccept }}">Confirmar cambio</button></div>
+</div></div></sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;acento&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;oklch(0.50 0.10 148)&quot;,&quot;options&quot;:[&quot;oklch(0.50 0.10 148)&quot;,&quot;oklch(0.50 0.10 255)&quot;,&quot;oklch(0.52 0.11 35)&quot;,&quot;oklch(0.48 0.10 305)&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Apariencia&quot;},&quot;verProductos&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;ocultarCancelados&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;}}">
+__COMPONENT__
+</script>
+
+
+</body></html>
