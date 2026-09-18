@@ -1,0 +1,17 @@
+{
+  "brand": "Agency Planner",
+  "colors": {
+    "logoCoral": "#ff6857",
+    "action": "#b63829",
+    "actionHover": "#962b20",
+    "background": "#fff8f5",
+    "surface": "#fffdfc",
+    "sidebar": "#fff0e9",
+    "tint": "#ffebe4",
+    "text": "#302724",
+    "muted": "#74615b",
+    "border": "#eadbd5"
+  },
+  "typeface": "Inter, Segoe UI, sans-serif",
+  "logo": "assets/agency-planner-logo.png"
+}

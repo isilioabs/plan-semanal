@@ -1,13 +1,16 @@
 import { createAPI, createWorkspaceBridge } from './api.js';
 import { passwordRequirements, validNewPassword } from './password-policy.mjs';
 import config from 'agency-config';
+import {mountDirectory} from './directory.js';
+import {directoryTypes} from './directory-data.mjs';
+let directoryController=null;
 
 const root=document.querySelector('#app');
 const state={session:null,agencies:[],agency:null,route:'agencies',mode:'login',demo:false,epoch:0};
 const roles={owner:'Propiedad',admin:'Administración',coordinator:'Coordinación',supervisor:'Supervisión',promoter:'Promotora',client:'Cliente'};
 const auditLabels={'agency.created':'Agencia creada','member.invited':'Invitación creada','invitation.accepted':'Invitación aceptada','invitation.revoked':'Invitación revocada','member.revoked':'Acceso revocado','member.changed':'Permisos actualizados','ownership.transferred':'Propiedad transferida','plan.saved':'Plan guardado','plan.restored':'Respaldo restaurado','agency_files.insert':'Archivo registrado','agency_files.update':'Archivo actualizado','agency_files.delete':'Archivo retirado'};
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const brand='<div class="brand"><span class="brand-mark" aria-hidden="true">a</span>Agency Planner</div>';
+const brand='<div class="brand"><img class="brand-mark" src="assets/agency-planner-logo.png" alt="" width="48" height="48">Agency Planner</div>';
 const btn=(label,action,extra='')=>`<button data-action="${action}" ${extra}>${label}</button>`;
 const input=(label,name,type='text',extra='')=>`<label>${label}<input name="${name}" type="${type}" ${extra}></label>`;
 let api=null;
@@ -20,6 +23,7 @@ function notice(message,error=false) {
 }
 function invalidate() {
  state.epoch++;
+ directoryController=null;
  if(window.AGENCY_WORKSPACE) window.AGENCY_WORKSPACE.invalidate();
  window.AGENCY_WORKSPACE=null;
  document.querySelector('#planner')?.remove();
@@ -33,6 +37,8 @@ function confirmAction(text,transfer=false) {
 }
 async function canLeave() {
  if(document.querySelector('form[data-busy]')){notice('Espera a que termine la operación actual.',true);return false;}
+ if(directoryController?.pending()){notice('Espera a que termine el guardado de la ficha.',true);return false;}
+ if(directoryController?.dirty()&&!await confirmAction('Tienes cambios sin guardar en esta ficha. ¿Salir y descartarlos?'))return false;
  const workspace=window.AGENCY_WORKSPACE;
  if(workspace?.pending){notice('Espera a que termine el guardado.',true);return false;}
  return !workspace?.controller?.dirty() || await confirmAction('Tienes cambios sin guardar. Descarga el borrador desde el planner si quieres conservarlo. ¿Salir y descartarlos?');
@@ -42,7 +48,7 @@ const callbackURL=()=>new URL('app.html',location.href).href;
 function authPage() {
  const signup=state.mode==='signup',reset=state.mode==='reset',password=state.mode==='password';
  root.innerHTML=`<header class="masthead">${brand}<span class="muted">Tu operación, en un mismo lugar.</span></header>
- <main id="content" class="auth-grid"><section class="intro"><span class="eyebrow">El espacio de tu agencia</span><h1>Todo el equipo.<br>Un mismo plan.</h1><p class="muted">Organiza activaciones, cuida los detalles y mantén a tu agencia conectada, desde donde estés.</p>
+ <main id="content" class="auth-grid"><section class="intro"><img class="intro-logo" src="assets/agency-planner-logo.png" alt="" width="112" height="112"><span class="eyebrow">El espacio de tu agencia</span><h1>Todo el equipo.<br>Un mismo plan.</h1><p class="muted">Organiza activaciones, cuida los detalles y mantén a tu agencia conectada, desde donde estés.</p>
  <div class="mini-plan" aria-label="Ejemplo ilustrativo"><div class="eyebrow">Así se ve una semana en orden</div><div class="mini-row"><span class="mini-date">05</span><span>Activación en punto de venta<small>Maracaibo · Equipo asignado</small></span><span class="badge">Programada</span></div><div class="mini-row"><span class="mini-date">06</span><span>Expo de marcas<small>Varias marcas · Un mismo equipo</small></span><span class="badge">En preparación</span></div><small>Ejemplo ficticio</small></div></section>
  <section class="panel auth-panel stack">${!reset&&!password?`<nav class="auth-tabs" aria-label="Acceso">${btn('Iniciar sesión','login',`aria-current="${!signup}"`)}${btn('Crear cuenta','signup',`aria-current="${signup}"`)}</nav>`:''}
  <div><h2>${password?'Elige una nueva contraseña':reset?'Recupera tu acceso':signup?'Empieza con tu agencia':'Qué bueno tenerte aquí'}</h2><p class="muted">${password?'Actualiza la contraseña de tu cuenta.':reset?'Te enviaremos un enlace para cambiar tu contraseña.':signup?'Crea tu cuenta y después tu espacio de trabajo.':'Entra a las agencias de las que formas parte.'}</p></div>
@@ -57,7 +63,7 @@ function authPage() {
 }
 function shell(content,title='Mis agencias') {
  if(!state.agency){root.innerHTML=`${state.demo?'<div class="demo-strip">Ejemplo local · Datos ficticios en memoria. No hay cuentas ni guardado en la nube.</div>':''}<header class="masthead">${brand}<div class="actions"><span class="muted">${escape(state.session?.user.email||'Demostración')}</span>${btn('Cerrar sesión','logout')}</div></header><main id="content" class="onboarding">${messages}${content}</main>`;return;}
- root.innerHTML=`${state.demo?'<div class="demo-strip">Ejemplo local · Los cambios desaparecen al recargar. No es una cuenta real.</div>':''}<div class="shell"><aside class="sidebar">${brand}<div><span class="eyebrow">Agencia actual</span><p style="margin:10px 0">${escape(state.agency.agencies.name)}</p><span class="badge">${roles[state.agency.role]}</span></div><nav aria-label="Tu agencia">${['planner','team','files','account'].map((r,i)=>btn(['Plan semanal','Equipo y accesos','Archivos privados','Mi cuenta'][i],r,`aria-current="${state.route===r?'page':'false'}"`)).join('')}${btn('Cambiar de agencia','agencies')}</nav><footer><span class="badge">Plan gratuito</span><p class="hint muted">Una base compartida para toda tu operación.</p></footer></aside><div class="shell-main"><header class="topbar"><h1>${escape(title)}</h1><div class="actions"><span class="muted">${escape(state.session?.user.email||'Demostración')}</span>${btn('Salir','logout')}</div></header><main id="content" class="content ${state.route==='planner'?'wide':''}">${messages}${content}</main></div></div>`;
+ root.innerHTML=`${state.demo?'<div class="demo-strip">Ejemplo local · Los cambios desaparecen al recargar. No es una cuenta real.</div>':''}<div class="shell"><aside class="sidebar">${brand}<div><span class="eyebrow">Agencia actual</span><p style="margin:10px 0">${escape(state.agency.agencies.name)}</p><span class="badge">${roles[state.agency.role]}</span></div><nav aria-label="Tu agencia">${['planner',...(manager()?['promoters','clients','brands']:[]),'team','files','account'].map(r=>btn(({planner:'Plan semanal',promoters:'Promotoras',clients:'Clientes',brands:'Marcas',team:'Equipo y accesos',files:'Archivos privados',account:'Mi cuenta'})[r],r,`aria-current="${state.route===r?'page':'false'}"`)).join('')}${btn('Cambiar de agencia','agencies')}</nav><footer><span class="badge">Plan gratuito</span><p class="hint muted">Una base compartida para toda tu operación.</p></footer></aside><div class="shell-main"><header class="topbar"><h1>${escape(title)}</h1><div class="actions"><span class="muted">${escape(state.session?.user.email||'Demostración')}</span>${btn('Salir','logout')}</div></header><main id="content" class="content ${state.route==='planner'?'wide':''}">${messages}${content}</main></div></div>`;
 }
 function agenciesPage() {
  state.agency=null;state.route='agencies';
@@ -91,6 +97,20 @@ async function navigate(route) {
   window.AGENCY_WORKSPACE=createWorkspaceBridge(state.demo?state.demoAPI:api,state.agency.agency_id);
   window.AGENCY_WORKSPACE.demo=state.demo;
   document.querySelector('#planner').src='index.html?agency=1';return;
+ }
+ if(Object.hasOwn(directoryTypes,route)){
+  if(!manager()){shell('<p>Esta sección requiere propiedad o administración.</p>','Acceso restringido');return;}
+  if(state.demo){shell('<p>Los directorios necesitan una cuenta y una agencia conectada.</p>',directoryTypes[route].title);return;}
+  const epoch=state.epoch;
+  try {
+   const controller=await mountDirectory({type:route,agency:state.agency.agency_id,client:api.client,shell,notice,active:()=>state.epoch===epoch});
+   if(state.epoch===epoch)directoryController=controller;
+  } catch(e) {
+   if(state.epoch!==epoch)return;
+   shell(`<section class="panel"><h2>No pudimos cargar el directorio</h2><p>Comprueba tu conexión y vuelve a intentarlo.</p>${btn('Reintentar',route)}</section>`,directoryTypes[route].title);
+   notice(e.message||'No se pudo cargar el directorio.',true);
+  }
+  return;
  }
  if(route==='account'){
   shell(`<section class="panel stack"><div><h2>Tu cuenta, tus accesos</h2><p class="muted">${escape(state.session?.user.email||'Demostración local')}</p></div><p>Conecta otro método desde tu sesión actual. El proveedor verificará tu identidad antes de vincularlo.</p><div class="actions">${btn('Vincular Google','link-google',state.demo||!config.providers.google?'disabled':'')}${btn('Vincular Apple','link-apple',state.demo||!config.providers.apple?'disabled':'')}${btn('Cambiar contraseña','change-password',state.demo?'disabled':'')}</div><small>Apple puede utilizar un correo privado de retransmisión. Vincular desde esta cuenta evita crear espacios separados por error.</small></section>`,'Mi cuenta');return;
@@ -150,7 +170,7 @@ root.addEventListener('click',async event=>{
    state.demo=false;state.agencies=[];state.agency=null;state.session=null;state.mode='login';authPage();return;
   }
   if(action==='open-agency'){if(await canLeave())await openAgency(id);return;}
-  if(['planner','team','files','account','agencies'].includes(action)){if(await canLeave())await navigate(action);return;}
+  if(['planner','promoters','clients','brands','team','files','account','agencies'].includes(action)){if(await canLeave())await navigate(action);return;}
   if(state.demo)throw new Error('Esta acción necesita una cuenta real.');
   if(action==='edit-member'){
    const member=state.members.find(m=>m.user_id===id);
@@ -216,7 +236,7 @@ root.addEventListener('submit',async event=>{
   }
  }catch(e){notice(e.message||'No se pudo completar la acción.',true);}finally{delete form.dataset.busy;buttons.forEach(b=>b.disabled=false);}
 });
-window.addEventListener('beforeunload',event=>{if(window.AGENCY_WORKSPACE?.pending||window.AGENCY_WORKSPACE?.controller?.dirty()){event.preventDefault();event.returnValue='';}});
+window.addEventListener('beforeunload',event=>{if(directoryController?.pending()||directoryController?.dirty()||window.AGENCY_WORKSPACE?.pending||window.AGENCY_WORKSPACE?.controller?.dirty()){event.preventDefault();event.returnValue='';}});
 // Recheck membership after returning to the app and periodically. RLS denies revoked tokens immediately on every request.
 async function recheckAccess(){
  if(!api||state.demo||!state.agency)return;

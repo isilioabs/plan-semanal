@@ -2,7 +2,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const output=path.join(root,'release');
-const artifacts=['index.html','app.html','assets/workspace.js','assets/workspace.css'];
+const artifacts=['index.html','app.html','assets/workspace.js','assets/workspace.css','assets/agency-planner-logo.png'];
 if(fs.existsSync(output)){
  for(const entry of fs.readdirSync(output,{recursive:true,withFileTypes:true})){
   if(!entry.isFile())continue;

@@ -58,6 +58,21 @@ test('PostgreSQL: tenant isolation, roles, invitations, scope, recovery and priv
   await as(3);await assert.rejects(db.query('select public.accept_invitation($1)',['f'.repeat(64)]),/Invitación no disponible/);
  });
  let campaign,activity,file;
+ await t.test('directory edits are tenant scoped and reject stale revisions',async()=>{
+  await as(0);
+  const promoter=await scalar("insert into public.promoters(agency_id,name,city,rate_cents) values($1,'Ana','Maracaibo',0) returning id",[a]);
+  const customer=await scalar("insert into public.clients(agency_id,name) values($1,'Cliente A') returning id",[a]);
+  await db.query("insert into public.brands(agency_id,name,client_id) values($1,'Marca A',$2)",[a,customer]);
+  assert.equal(await scalar('select rate_cents from public.promoters where id=$1',[promoter]),0);
+  assert.equal((await db.query('update public.promoters set archived=true where id=$1 and revision=1 returning revision',[promoter])).rows[0].revision,2);
+  assert.equal((await db.query("update public.promoters set name='Nombre obsoleto' where id=$1 and revision=1 returning id",[promoter])).rows.length,0);
+  await db.query('update public.promoters set archived=false where id=$1 and revision=2',[promoter]);
+  await assert.rejects(db.query('update public.promoters set rate_cents=-1 where id=$1',[promoter]),/check constraint/);
+  await as(1);assert.equal((await db.query('select * from public.promoters where id=$1',[promoter])).rows.length,0);
+  assert.equal((await db.query('update public.promoters set archived=true where id=$1 returning id',[promoter])).rows.length,0);
+  await assert.rejects(db.query("insert into public.brands(agency_id,name,client_id) values($1,'Cruce',$2)",[b,customer]),/foreign key/);
+  await as(2);assert.equal((await db.query('select * from public.promoters')).rows.length,0);
+ });
  await t.test('city and campaign restrictions combine; related entities cannot cross tenants',async()=>{
   await as(0);campaign=await scalar('insert into public.campaigns(agency_id,name) values($1,$2) returning id',[a,'Expo']);
   activity=await scalar('insert into public.activations(agency_id,name,city,campaign_id) values($1,$2,$3,$4) returning id',[a,'Stand A','Maracaibo',campaign]);

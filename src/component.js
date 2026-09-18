@@ -43,7 +43,7 @@ __ACTIONS__
 
   renderVals() {
     const L = window.PLANLIB, D = window.PLAN_DATA, s = this.state, data = s.data;
-    const acento = this.props.acento ?? 'oklch(0.50 0.10 148)';
+    const acento = this.props.acento ?? 'oklch(0.50 0.10 28)';
     const verProductos = this.props.verProductos ?? true;
     if (!L || !data) return { tituloSemana: s.error ? 'No se pudo abrir el plan' : 'Cargando plan…', error:s.error || '',hayError:!!s.error,storageNote:'Conectando con la agencia…', dias: [], tabs: [], verProductos,statTotal:0,statHechas:0,statClientes:0,statPorCobrar:0,montoPorCobrar:'—',montoSemana:'—' };
 
@@ -180,8 +180,8 @@ __ACTIONS__
       tipoOpts: ev ? (data.tipos || []).map(t => {
         const on = ev.tipo === t;
         return { n: t, onClick: () => this.setEv('tipo', on ? '' : t),
-          bg: on ? 'oklch(0.94 0.05 148)' : '#fff', fg: on ? 'oklch(0.38 0.09 148)' : 'oklch(0.45 0.02 70)',
-          bd: on ? 'oklch(0.80 0.07 148)' : 'oklch(0.90 0.01 85)' };
+          bg: on ? 'oklch(0.94 0.05 28)' : '#fff', fg: on ? 'oklch(0.38 0.09 28)' : 'oklch(0.45 0.02 70)',
+          bd: on ? 'oklch(0.80 0.07 28)' : 'oklch(0.90 0.01 85)' };
       }) : [],
       nuevoTipo: s.nuevoTipo || '',
       onNuevoTipo: e => this.setState({ nuevoTipo: e.target.value }),
@@ -193,7 +193,7 @@ __ACTIONS__
       onAgregarProd: () => this.agregarProducto('ev'),
       onNuevoProdKeyDsc: e => { if (e.key === 'Enter') { e.preventDefault(); this.agregarProducto('dsc'); } },
       onAgregarProdDsc: () => this.agregarProducto('dsc'),
-      prodChips: ev ? data.productos.filter(n => !data.productosArchivados.includes(n) || ev.productos.includes(n)).map(n => ({ ...this.chip(n, ev.productos.includes(n), 148), onClick: () => this.toggleEn('productos', n) })) : [],
+      prodChips: ev ? data.productos.filter(n => !data.productosArchivados.includes(n) || ev.productos.includes(n)).map(n => ({ ...this.chip(n, ev.productos.includes(n), 28), onClick: () => this.toggleEn('productos', n) })) : [],
       popChips: ev ? D.pop.map(n => ({ ...this.chip(n, ev.pop.includes(n), 255), onClick: () => this.toggleEn('pop', n) })) : [],
       estadoOpts: ['pendiente', 'hecho', 'cancelado'].map(k => {
         const est = L.estado(k), on = ev && ev.estado === k;
@@ -214,7 +214,7 @@ __ACTIONS__
         descripcion: e => this.setState(st => ({ dsc: { ...st.dsc, descripcion: e.target.value } })),
         detalles: e => this.setState(st => ({ dsc: { ...st.dsc, detalles: e.target.value } }))
       },
-      dscChips: dsc ? data.productos.filter(n => !data.productosArchivados.includes(n) || dsc.productos.includes(n)).map(n => ({ ...this.chip(n, (dsc.productos || []).includes(n), 148),
+      dscChips: dsc ? data.productos.filter(n => !data.productosArchivados.includes(n) || dsc.productos.includes(n)).map(n => ({ ...this.chip(n, (dsc.productos || []).includes(n), 28),
         onClick: () => this.setState(st => {
           const arr = (st.dsc.productos || []).slice(), i = arr.indexOf(n);
           if (i < 0) arr.push(n); else arr.splice(i, 1);

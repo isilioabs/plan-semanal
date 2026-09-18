@@ -1,6 +1,0 @@
-{
-  "supabaseUrl": "",
-  "supabasePublishableKey": "",
-  "providers": { "google": false, "apple": false },
-  "environment": "development"
-}
