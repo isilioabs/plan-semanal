@@ -11,6 +11,8 @@ La integración está preparada localmente. Crear el proyecto, configurar correo
    - supabase/migrations/202609050001_agencies.sql
    - supabase/migrations/202609050002_operational_model.sql
    - supabase/migrations/202609050003_private_storage.sql
+   - supabase/migrations/202609140004_directory.sql
+   - supabase/migrations/202609170005_activation_scheduling.sql
 
 No están diseñados para ejecutarse repetidamente ni sobre otro esquema ya existente. Cada archivo usa una transacción: si falla, corrige la causa y vuelve a ejecutar solo el archivo que no se aplicó. No borres tablas para resolver un error en un proyecto con datos.
 

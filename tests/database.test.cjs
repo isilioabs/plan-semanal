@@ -82,6 +82,27 @@ test('PostgreSQL: tenant isolation, roles, invitations, scope, recovery and priv
   await assert.rejects(db.query('insert into public.activations(agency_id,name,city) values($1,$2,$3)',[a,'Intrusión','Maracaibo']),/row-level security/);
   await as(1);await assert.rejects(db.query('insert into public.activations(agency_id,name,city,campaign_id) values($1,$2,$3,$4)',[b,'Cruce','Maracaibo',campaign]),/foreign key/);
  });
+ await t.test('activation save is atomic and promoter schedules cannot overlap',async()=>{
+  await as(0);
+  const customer=await scalar("insert into public.clients(agency_id,name) values($1,'Cliente operativo') returning id",[a]);
+  const brandA=await scalar("insert into public.brands(agency_id,name,client_id) values($1,'Marca Uno',$2) returning id",[a,customer]);
+  const brandB=await scalar("insert into public.brands(agency_id,name,client_id) values($1,'Marca Dos',$2) returning id",[a,customer]);
+  const promoter=await scalar("insert into public.promoters(agency_id,name,city,rate_cents) values($1,'Promotora Agenda','Maracaibo',1500) returning id",[a]);
+  const operation=await scalar('select gen_random_uuid()');
+  const saved=(await db.query(`select result.* from public.save_activation($1,$2,$3::integer,$4,$5,$6::uuid,$7,$8,$9,$10,$11::uuid[]) result`,[a,operation,null,'Expo multimarcas','Maracaibo',customer,'Hotel','Centro','Montaje temprano','published',[brandA,brandB]])).rows[0];
+  assert.equal(saved.revision,1);assert.equal(saved.client_id,customer);
+  assert.equal(await scalar('select count(*)::integer from public.activation_brands where activation_id=$1',[operation]),2);
+  const updated=(await db.query(`select result.* from public.save_activation($1,$2,$3::integer,$4,$5,$6::uuid,$7,$8,$9,$10,$11::uuid[]) result`,[a,operation,1,'Expo actualizada','Maracaibo',customer,'Hotel','Centro','','published',[brandA]])).rows[0];
+  assert.equal(updated.revision,2);assert.equal(await scalar('select count(*)::integer from public.activation_brands where activation_id=$1',[operation]),1);
+  await assert.rejects(db.query(`select public.save_activation($1,$2,$3::integer,$4,$5,$6::uuid,$7,$8,$9,$10,$11::uuid[])`,[a,operation,1,'Obsoleta','Maracaibo',customer,'','','','draft',[brandA]]),/cambió/);
+  const first=await scalar("insert into public.shifts(agency_id,activation_id,starts_at,ends_at,required_people) values($1,$2,'2026-10-01 08:00-04','2026-10-01 12:00-04',1) returning id",[a,operation]);
+  const second=await scalar("insert into public.shifts(agency_id,activation_id,starts_at,ends_at,required_people) values($1,$2,'2026-10-01 12:00-04','2026-10-01 16:00-04',1) returning id",[a,operation]);
+  await db.query('insert into public.assignments(agency_id,shift_id,promoter_id,rate_cents) values($1,$2,$3,1500)',[a,first,promoter]);
+  await db.query('insert into public.assignments(agency_id,shift_id,promoter_id,rate_cents) values($1,$2,$3,1500)',[a,second,promoter]);
+  await assert.rejects(db.query("update public.shifts set starts_at='2026-10-01 11:30-04',ends_at='2026-10-01 13:00-04' where id=$1",[second]),/cruza asignaciones/);
+  const overlapping=await scalar("insert into public.shifts(agency_id,activation_id,starts_at,ends_at,required_people) values($1,$2,'2026-10-01 10:00-04','2026-10-01 14:00-04',1) returning id",[a,operation]);
+  await assert.rejects(db.query('insert into public.assignments(agency_id,shift_id,promoter_id) values($1,$2,$3)',[a,overlapping,promoter]),/otro turno/);
+ });
  await t.test('save uses revision compare-and-swap and recovery is atomic',async()=>{
   await as(0);
   const next={...empty,productos:['Prueba']};

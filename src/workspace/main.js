@@ -3,7 +3,9 @@ import { passwordRequirements, validNewPassword } from './password-policy.mjs';
 import config from 'agency-config';
 import {mountDirectory} from './directory.js';
 import {directoryTypes} from './directory-data.mjs';
+import {mountOperations} from './operations.js';
 let directoryController=null;
+let operationsController=null;
 
 const root=document.querySelector('#app');
 const state={session:null,agencies:[],agency:null,route:'agencies',mode:'login',demo:false,epoch:0};
@@ -24,6 +26,7 @@ function notice(message,error=false) {
 function invalidate() {
  state.epoch++;
  directoryController=null;
+ operationsController=null;
  if(window.AGENCY_WORKSPACE) window.AGENCY_WORKSPACE.invalidate();
  window.AGENCY_WORKSPACE=null;
  document.querySelector('#planner')?.remove();
@@ -39,6 +42,8 @@ async function canLeave() {
  if(document.querySelector('form[data-busy]')){notice('Espera a que termine la operación actual.',true);return false;}
  if(directoryController?.pending()){notice('Espera a que termine el guardado de la ficha.',true);return false;}
  if(directoryController?.dirty()&&!await confirmAction('Tienes cambios sin guardar en esta ficha. ¿Salir y descartarlos?'))return false;
+ if(operationsController?.pending()){notice('Espera a que termine el guardado operativo.',true);return false;}
+ if(operationsController?.dirty()&&!await confirmAction('Tienes cambios sin guardar. ¿Salir y descartarlos?'))return false;
  const workspace=window.AGENCY_WORKSPACE;
  if(workspace?.pending){notice('Espera a que termine el guardado.',true);return false;}
  return !workspace?.controller?.dirty() || await confirmAction('Tienes cambios sin guardar. Descarga el borrador desde el planner si quieres conservarlo. ¿Salir y descartarlos?');
@@ -63,7 +68,7 @@ function authPage() {
 }
 function shell(content,title='Mis agencias') {
  if(!state.agency){root.innerHTML=`${state.demo?'<div class="demo-strip">Ejemplo local · Datos ficticios en memoria. No hay cuentas ni guardado en la nube.</div>':''}<header class="masthead">${brand}<div class="actions"><span class="muted">${escape(state.session?.user.email||'Demostración')}</span>${btn('Cerrar sesión','logout')}</div></header><main id="content" class="onboarding">${messages}${content}</main>`;return;}
- root.innerHTML=`${state.demo?'<div class="demo-strip">Ejemplo local · Los cambios desaparecen al recargar. No es una cuenta real.</div>':''}<div class="shell"><aside class="sidebar">${brand}<div><span class="eyebrow">Agencia actual</span><p style="margin:10px 0">${escape(state.agency.agencies.name)}</p><span class="badge">${roles[state.agency.role]}</span></div><nav aria-label="Tu agencia">${['planner',...(manager()?['promoters','clients','brands']:[]),'team','files','account'].map(r=>btn(({planner:'Plan semanal',promoters:'Promotoras',clients:'Clientes',brands:'Marcas',team:'Equipo y accesos',files:'Archivos privados',account:'Mi cuenta'})[r],r,`aria-current="${state.route===r?'page':'false'}"`)).join('')}${btn('Cambiar de agencia','agencies')}</nav><footer><span class="badge">Plan gratuito</span><p class="hint muted">Una base compartida para toda tu operación.</p></footer></aside><div class="shell-main"><header class="topbar"><h1>${escape(title)}</h1><div class="actions"><span class="muted">${escape(state.session?.user.email||'Demostración')}</span>${btn('Salir','logout')}</div></header><main id="content" class="content ${state.route==='planner'?'wide':''}">${messages}${content}</main></div></div>`;
+ root.innerHTML=`${state.demo?'<div class="demo-strip">Ejemplo local · Los cambios desaparecen al recargar. No es una cuenta real.</div>':''}<div class="shell"><aside class="sidebar">${brand}<div><span class="eyebrow">Agencia actual</span><p style="margin:10px 0">${escape(state.agency.agencies.name)}</p><span class="badge">${roles[state.agency.role]}</span></div><nav aria-label="Tu agencia">${['planner',...(manager()?['operations','promoters','clients','brands']:[]),'team','files','account'].map(r=>btn(({planner:'Plan semanal',operations:'Activaciones',promoters:'Promotoras',clients:'Clientes',brands:'Marcas',team:'Equipo y accesos',files:'Archivos privados',account:'Mi cuenta'})[r],r,`aria-current="${state.route===r?'page':'false'}"`)).join('')}${btn('Cambiar de agencia','agencies')}</nav><footer><span class="badge">Plan gratuito</span><p class="hint muted">Una base compartida para toda tu operación.</p></footer></aside><div class="shell-main"><header class="topbar"><h1>${escape(title)}</h1><div class="actions"><span class="muted">${escape(state.session?.user.email||'Demostración')}</span>${btn('Salir','logout')}</div></header><main id="content" class="content ${state.route==='planner'?'wide':''}">${messages}${content}</main></div></div>`;
 }
 function agenciesPage() {
  state.agency=null;state.route='agencies';
@@ -97,6 +102,16 @@ async function navigate(route) {
   window.AGENCY_WORKSPACE=createWorkspaceBridge(state.demo?state.demoAPI:api,state.agency.agency_id);
   window.AGENCY_WORKSPACE.demo=state.demo;
   document.querySelector('#planner').src='index.html?agency=1';return;
+ }
+ if(route==='operations'){
+  if(!manager()){shell('<p>Esta sección requiere propiedad o administración.</p>','Acceso restringido');return;}
+  if(state.demo){shell('<p>Las activaciones necesitan una cuenta y una agencia conectada.</p>','Activaciones');return;}
+  const epoch=state.epoch;
+  try{
+   const controller=await mountOperations({agency:state.agency.agency_id,client:api.client,shell,notice,active:()=>state.epoch===epoch});
+   if(state.epoch===epoch)operationsController=controller;
+  }catch(e){if(state.epoch!==epoch)return;shell(`<section class="panel"><h2>No pudimos cargar las activaciones</h2><p>Comprueba tu conexión y vuelve a intentarlo.</p>${btn('Reintentar','operations')}</section>`,'Activaciones');notice(e.message||'No se pudieron cargar las activaciones.',true);}
+  return;
  }
  if(Object.hasOwn(directoryTypes,route)){
   if(!manager()){shell('<p>Esta sección requiere propiedad o administración.</p>','Acceso restringido');return;}
@@ -138,7 +153,7 @@ function scopeInputs(m={cities:[],campaigns:[]}) {
  return `${input('Ciudades permitidas · Separadas por coma','cities','text',`value="${escape(m.cities.join(', '))}" placeholder="Vacío: todas"`)}<fieldset><legend>Campañas permitidas</legend>${options.length?options.map(c=>`<label class="check-option"><input type="checkbox" name="campaigns" value="${c.id}" ${m.campaigns.includes(c.id)?'checked':''}>${escape(c.name)}</label>`).join(''):'<small>Las campañas aparecerán aquí cuando se creen en el módulo de planificación.</small>'}<small>Sin selección: todas las campañas. Estas restricciones se aplican a coordinación y supervisión en los nuevos registros operativos.</small></fieldset>`;
 }
 function setupPage() {
- root.innerHTML=`<header class="masthead">${brand}${btn('Volver al acceso','login')}</header><main id="content" class="onboarding"><span class="eyebrow">Preparación de la instalación</span><h1>Conectemos tu agencia.</h1><p class="muted">El código está preparado. Estos pasos activan las cuentas reales y la base central.</p><div class="workspace-grid"><section class="panel"><div class="step-number">01</div><h2>Proyecto y datos</h2><ol class="setup-list"><li>Crea un proyecto de desarrollo en Supabase.</li><li>Ejecuta las tres migraciones SQL, en orden.</li><li>Configura la URL del sitio y las URL de retorno.</li></ol></section><section class="panel"><div class="step-number">02</div><h2>Acceso verificado</h2><ol class="setup-list"><li>Activa confirmación de correo y configura SMTP.</li><li>Configura Google y Apple con sus credenciales.</li><li>Habilita la vinculación manual de identidades.</li></ol></section><section class="panel full"><div class="step-number">03</div><h2>Conexión y comprobación</h2><p>Copia config/public.example.json a config/public.local.json. Añade la URL del proyecto y su clave publicable, y ejecuta npm run build. Las claves secretas de proveedores permanecen en Supabase.</p><p>Antes de publicar, verifica dos cuentas y dos agencias, rechazo de acceso cruzado, revocación y guardado desde otro dispositivo.</p><div class="actions">${btn('Explorar ejemplo local','demo')}<a href="https://supabase.com/dashboard" target="_blank" rel="noreferrer">Abrir Supabase</a></div><p class="hint muted">La guía completa está en docs/fase-1-configuracion.md dentro del proyecto.</p></section></div></main>`;
+ root.innerHTML=`<header class="masthead">${brand}${btn('Volver al acceso','login')}</header><main id="content" class="onboarding"><span class="eyebrow">Preparación de la instalación</span><h1>Conectemos tu agencia.</h1><p class="muted">El código está preparado. Estos pasos activan las cuentas reales y la base central.</p><div class="workspace-grid"><section class="panel"><div class="step-number">01</div><h2>Proyecto y datos</h2><ol class="setup-list"><li>Crea un proyecto de desarrollo en Supabase.</li><li>Ejecuta todas las migraciones SQL, en orden.</li><li>Configura la URL del sitio y las URL de retorno.</li></ol></section><section class="panel"><div class="step-number">02</div><h2>Acceso verificado</h2><ol class="setup-list"><li>Activa confirmación de correo y configura SMTP.</li><li>Configura Google y Apple con sus credenciales.</li><li>Habilita la vinculación manual de identidades.</li></ol></section><section class="panel full"><div class="step-number">03</div><h2>Conexión y comprobación</h2><p>Copia config/public.example.json a config/public.local.json. Añade la URL del proyecto y su clave publicable, y ejecuta npm run build. Las claves secretas de proveedores permanecen en Supabase.</p><p>Antes de publicar, verifica dos cuentas y dos agencias, rechazo de acceso cruzado, revocación y guardado desde otro dispositivo.</p><div class="actions">${btn('Explorar ejemplo local','demo')}<a href="https://supabase.com/dashboard" target="_blank" rel="noreferrer">Abrir Supabase</a></div><p class="hint muted">La guía completa está en docs/fase-1-configuracion.md dentro del proyecto.</p></section></div></main>`;
 }
 async function authenticated(session) {
  invalidate();state.session=session;
@@ -170,7 +185,7 @@ root.addEventListener('click',async event=>{
    state.demo=false;state.agencies=[];state.agency=null;state.session=null;state.mode='login';authPage();return;
   }
   if(action==='open-agency'){if(await canLeave())await openAgency(id);return;}
-  if(['planner','promoters','clients','brands','team','files','account','agencies'].includes(action)){if(await canLeave())await navigate(action);return;}
+  if(['planner','operations','promoters','clients','brands','team','files','account','agencies'].includes(action)){if(await canLeave())await navigate(action);return;}
   if(state.demo)throw new Error('Esta acción necesita una cuenta real.');
   if(action==='edit-member'){
    const member=state.members.find(m=>m.user_id===id);
@@ -236,7 +251,7 @@ root.addEventListener('submit',async event=>{
   }
  }catch(e){notice(e.message||'No se pudo completar la acción.',true);}finally{delete form.dataset.busy;buttons.forEach(b=>b.disabled=false);}
 });
-window.addEventListener('beforeunload',event=>{if(directoryController?.pending()||directoryController?.dirty()||window.AGENCY_WORKSPACE?.pending||window.AGENCY_WORKSPACE?.controller?.dirty()){event.preventDefault();event.returnValue='';}});
+window.addEventListener('beforeunload',event=>{if(directoryController?.pending()||directoryController?.dirty()||operationsController?.pending()||operationsController?.dirty()||window.AGENCY_WORKSPACE?.pending||window.AGENCY_WORKSPACE?.controller?.dirty()){event.preventDefault();event.returnValue='';}});
 // Recheck membership after returning to the app and periodically. RLS denies revoked tokens immediately on every request.
 async function recheckAccess(){
  if(!api||state.demo||!state.agency)return;
